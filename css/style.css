@@ -1,0 +1,263 @@
+/* ============ VR Human Cell — UI theme ============ */
+:root {
+  --bg: #060b16;
+  --glass: rgba(13, 20, 36, 0.72);
+  --glass-border: rgba(140, 170, 230, 0.18);
+  --text: #e8eefc;
+  --text-dim: #9fb0d0;
+  --accent: #35c3f3;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app, #app canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ---------- Header ---------- */
+#hud-header {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  left: 18px;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+}
+#hud-header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+#hud-header .logo { margin-right: 4px; }
+#hud-header .tagline {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- Legend (organelle quick-nav) ---------- */
+#legend {
+  position: fixed;
+  left: 14px;
+  top: 96px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  padding: 4px;
+  scrollbar-width: thin;
+}
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+  white-space: nowrap;
+}
+.chip .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c, #fff);
+  box-shadow: 0 0 8px var(--c, #fff);
+  flex: none;
+}
+.chip:hover { transform: translateX(3px); border-color: var(--c, var(--accent)); }
+.chip.active { background: rgba(40, 60, 100, 0.85); border-color: var(--c, var(--accent)); }
+
+/* ---------- Info panel ---------- */
+#info {
+  position: fixed;
+  top: 90px;
+  right: 16px;
+  z-index: 11;
+  width: min(330px, calc(100vw - 32px));
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  transform: translateX(calc(100% + 24px));
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.28s ease;
+}
+#info.open { transform: translateX(0); opacity: 1; }
+#info .close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: 0;
+  background: none;
+  color: var(--text-dim);
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+}
+#info .close:hover { color: var(--text); }
+#info .info-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+#info .info-tag .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--c, #fff);
+  box-shadow: 0 0 12px var(--c, #fff);
+  flex: none;
+}
+#info h2 { margin: 0; font-size: 1.15rem; }
+#info .latin { margin: 0 0 10px; font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
+#info .desc { margin: 0 0 12px; font-size: 0.88rem; line-height: 1.55; color: #d7e1f6; }
+#info .fact {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--c, var(--accent));
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+#info .fact strong { color: var(--text); display: block; margin-bottom: 2px; }
+#info .panel-cta {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: rgba(53, 195, 243, 0.12);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+#info .panel-cta:hover { background: rgba(53, 195, 243, 0.25); }
+
+/* ---------- Bottom bar ---------- */
+#bar {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+.bar-btn {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+.bar-btn:hover { background: rgba(255, 255, 255, 0.14); }
+.bar-btn.active {
+  border-color: var(--accent);
+  background: rgba(53, 195, 243, 0.16);
+  color: var(--accent);
+}
+.bar-btn.vr { border-color: #b48cff; color: #cfb3ff; background: rgba(140, 100, 255, 0.14); }
+.bar-btn.vr:hover { background: rgba(140, 100, 255, 0.3); }
+
+/* ---------- Hint ---------- */
+#hint {
+  position: fixed;
+  left: 50%;
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 66px);
+  transform: translateX(-50%);
+  z-index: 9;
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.6s ease;
+  white-space: nowrap;
+}
+#hint.faded { opacity: 0; }
+
+/* ---------- Error overlay ---------- */
+#error-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 11, 22, 0.94);
+  color: #ffb4b4;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 720px) {
+  #legend {
+    top: auto;
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + 74px);
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+    max-width: calc(100vw - 24px);
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .chip:hover { transform: none; }
+  #info { top: 72px; right: 8px; }
+  #hint { display: none; }
+  #hud-header h1 { font-size: 1.1rem; }
+  #bar { padding: 6px; gap: 6px; }
+  .bar-btn { padding: 8px 11px; font-size: 0.75rem; }
+}
