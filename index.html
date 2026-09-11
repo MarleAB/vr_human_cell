@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="VR Human Cell — an interactive 3D / WebXR explorer of a human cell and its organelles." />
+  <title>VR Human Cell — Interactive 3D Explorer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AB%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/three.module.js",
+        "three/addons/": "./vendor/three/addons/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- 3D canvas mounts here -->
+  <div id="app" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header id="hud-header">
+    <h1><span class="logo" aria-hidden="true">🧫</span> VR Human Cell</h1>
+    <p class="tagline">Interactive 3D explorer of a eukaryotic cell</p>
+  </header>
+
+  <!-- Organelle legend / quick-nav -->
+  <nav id="legend" aria-label="Organelles"></nav>
+
+  <!-- Info panel -->
+  <aside id="info" class="open" aria-live="polite"></aside>
+
+  <!-- Bottom control bar -->
+  <footer id="bar">
+    <button id="btn-tour"   class="bar-btn" type="button">▶&nbsp;Tour</button>
+    <button id="btn-labels" class="bar-btn active" type="button" aria-pressed="true">🏷&nbsp;Labels</button>
+    <button id="btn-cut"    class="bar-btn" type="button" aria-pressed="false">✂️&nbsp;Cutaway</button>
+    <button id="btn-reset"  class="bar-btn" type="button">⟲&nbsp;Reset</button>
+    <button id="btn-vr"     class="bar-btn vr" type="button" hidden>🥽&nbsp;Enter&nbsp;VR</button>
+  </footer>
+
+  <p id="hint">Drag to orbit · Scroll / pinch to zoom · Click an organelle</p>
+
+  <div id="error-overlay" hidden></div>
+
+  <script>
+    // Surface script/module load failures (e.g. missing import-map support).
+    window.addEventListener('error', function (e) {
+      var el = document.getElementById('error-overlay');
+      if (!el || !e.message) return;
+      el.hidden = false;
+      el.textContent = '⚠️ Something went wrong while loading the 3D explorer.\n\n' + e.message;
+    }, true);
+  </script>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

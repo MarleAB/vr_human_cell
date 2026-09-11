@@ -1,0 +1,23 @@
+{
+  "name": "vr-human-cell",
+  "version": "1.0.0",
+  "description": "Interactive 3D / WebXR explorer of a human cell and its organelles.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "serve:python": "python3 -m http.server 3000 --bind 0.0.0.0"
+  },
+  "keywords": [
+    "vr",
+    "webxr",
+    "threejs",
+    "biology",
+    "cell",
+    "education",
+    "3d"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
